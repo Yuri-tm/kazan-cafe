@@ -6,48 +6,32 @@ const VKIcon = () => (
   </svg>
 );
 
-const Footer = () => {
+interface FooterProps {
+  content?: Record<string, string>;
+}
+
+const Footer = ({ content }: FooterProps) => {
+  const c = (key: string, fallback: string) => content?.[key] ?? fallback;
+
   return (
     <footer className="bg-foreground text-primary-foreground py-8 px-4">
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-4">
-        {/* Social links */}
         <div className="flex items-center gap-6">
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-70 transition-opacity flex items-center gap-1.5 text-sm"
-            aria-label="Telegram"
-          >
+          <a href={c("footer_telegram_url", "#")} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity flex items-center gap-1.5 text-sm" aria-label="Telegram">
             <Send className="w-5 h-5" />
             <span>Telegram</span>
           </a>
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-70 transition-opacity flex items-center gap-1.5 text-sm"
-            aria-label="VK"
-          >
+          <a href={c("footer_vk_url", "#")} target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity flex items-center gap-1.5 text-sm" aria-label="VK">
             <VKIcon />
             <span>VK</span>
           </a>
         </div>
-
-        {/* Created by */}
-        <a
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center gap-1"
-        >
+        <a href="#" target="_blank" rel="noopener noreferrer" className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center gap-1">
           <ExternalLink className="w-3 h-3" />
-          <span>Created by ...</span>
+          <span>{c("footer_created_by", "Created by ...")}</span>
         </a>
-
-        {/* Copyright */}
         <p className="text-xs opacity-50">
-          © {new Date().getFullYear()} Название компании. Все права защищены.
+          {c("footer_copyright", "© Название компании")} {new Date().getFullYear()}
         </p>
       </div>
     </footer>
