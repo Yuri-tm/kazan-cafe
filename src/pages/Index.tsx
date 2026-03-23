@@ -26,6 +26,7 @@ import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.png";
 import logoImg from "@/assets/Logo.svg";
 import zilantImg from "@/assets/Zilant_noBG_small.png";
 import robotImg from "@/assets/robot_noBG.png";
+import Footer from "@/components/Footer";
 
 const categories = [
   { id: 1, name: "КАЗАНЬ", image: "/lovable-uploads/38732f60-96e6-4455-bfde-82cbb5339eca.png" },
@@ -392,6 +393,7 @@ const Index = () => {
           </DialogContent>
         </Dialog>
       </div>
+      <Footer />
     </div>);
 
 };
