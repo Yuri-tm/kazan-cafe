@@ -13,6 +13,7 @@ import { useSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { useAllExcursions, useUpsertExcursion, useDeleteExcursion, type Excursion } from "@/hooks/useExcursions";
 import { useAllSpecialOffers, useUpsertSpecialOffer, useDeleteSpecialOffer, type SpecialOffer } from "@/hooks/useSpecialOffers";
 import { LogOut, Save, Plus, Trash2 } from "lucide-react";
+import ImageUpload from "@/components/ImageUpload";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -166,7 +167,7 @@ function ExcursionsEditor() {
         <Input placeholder="Название" value={form.name ?? ""} onChange={(e) => setForm({ ...form, name: e.target.value })} />
         <Input placeholder="Отображаемое имя (необязательно)" value={form.display_name ?? ""} onChange={(e) => setForm({ ...form, display_name: e.target.value || null })} />
         <Input placeholder="Цена" value={form.price ?? ""} onChange={(e) => setForm({ ...form, price: e.target.value })} />
-        <Input placeholder="URL изображения" value={form.image_url ?? ""} onChange={(e) => setForm({ ...form, image_url: e.target.value || null })} />
+        <ImageUpload value={form.image_url ?? null} onChange={(url) => setForm({ ...form, image_url: url })} folder="excursions" />
         <Textarea placeholder="Описание" rows={3} value={form.description ?? ""} onChange={(e) => setForm({ ...form, description: e.target.value })} />
         <Textarea placeholder="Детали" rows={3} value={form.details ?? ""} onChange={(e) => setForm({ ...form, details: e.target.value || null })} />
         <Input type="number" placeholder="Порядок сортировки" value={form.sort_order ?? 0} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
@@ -252,7 +253,7 @@ function OffersEditor() {
         <h3 className="font-semibold">{editingId === "new" ? "Новая акция" : "Редактирование"}</h3>
         <Input placeholder="Название" value={form.title ?? ""} onChange={(e) => setForm({ ...form, title: e.target.value })} />
         <Input placeholder="Цена" value={form.price ?? ""} onChange={(e) => setForm({ ...form, price: e.target.value })} />
-        <Input placeholder="URL изображения" value={form.image_url ?? ""} onChange={(e) => setForm({ ...form, image_url: e.target.value || null })} />
+        <ImageUpload value={form.image_url ?? null} onChange={(url) => setForm({ ...form, image_url: url })} folder="offers" />
         <Textarea placeholder="Описание" rows={3} value={form.description ?? ""} onChange={(e) => setForm({ ...form, description: e.target.value })} />
         <Textarea placeholder="Детали" rows={3} value={form.details ?? ""} onChange={(e) => setForm({ ...form, details: e.target.value || null })} />
         <Input type="number" placeholder="Порядок" value={form.sort_order ?? 0} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
