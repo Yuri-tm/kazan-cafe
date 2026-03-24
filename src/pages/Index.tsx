@@ -22,7 +22,7 @@ import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.png";
 import logoImg from "@/assets/Logo.svg";
 import zilantImg from "@/assets/Zilant_noBG_small.png";
 import robotImg from "@/assets/Robot_noBG.png";
-import egyptImg from "@/assets/egypt_noBG_small.jpg"
+import egyptImg from "@/assets/Egypt_noBG_small.png"
 import Footer from "@/components/Footer";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useExcursions, type Excursion } from "@/hooks/useExcursions";
