@@ -1,12 +1,6 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import kulSharifImg from "@/assets/Kremlin_noBG_small.png";
 import bolgarNoBgImg from "@/assets/Bolgar_noBG_small.png";
 import sviyazhskImg from "@/assets/Sviyazhsk_noBG.png";
@@ -63,6 +57,7 @@ const Index = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [expandedOfferId, setExpandedOfferId] = useState<string | null>(null);
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(new Set());
+  const [submitState, setSubmitState] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handleCheckboxChange = (productId: string, checked: boolean) => {
     setSelectedProducts((prev) => {
@@ -78,8 +73,25 @@ const Index = () => {
 
   const handleOrderClick = () => setShowPhoneDialog(true);
 
+  useEffect(() => {
+    if (!showPhoneDialog) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowPhoneDialog(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showPhoneDialog]);
+
   const handleSubmit = async () => {
-    if (!phoneNumber.trim()) { toast.error("Введите номер телефона"); return; }
+    if (!phoneNumber.trim()) {
+      setSubmitState({ type: "error", message: "Введите номер телефона" });
+      return;
+    }
+
     const selected = excursions.filter((p) => selectedProducts.has(p.id));
     const productsForSubmission = selected.length > 0
       ? selected.map((p) => ({ name: p.name, price: p.price }))
@@ -91,12 +103,12 @@ const Index = () => {
         body: { products: productsForSubmission, phone: phoneNumber.trim() },
       });
       if (error) throw error;
-      toast.success("Заказ отправлен!");
+      setSubmitState({ type: "success", message: "Заказ отправлен!" });
       setSelectedProducts(new Set());
       setPhoneNumber("");
     } catch (err) {
       console.error("Send error:", err);
-      toast.error("Ошибка отправки заказа");
+      setSubmitState({ type: "error", message: "Ошибка отправки заказа" });
     } finally {
       setIsSending(false);
     }
@@ -111,9 +123,14 @@ const Index = () => {
     const isExpanded = expandedId === product.id;
     const productTitle = product.display_name || product.name;
     const img = getImage(product);
+
     return (
-      <Card key={product.id} className="overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-md" onClick={() => setExpandedId((prev) => prev === product.id ? null : product.id)}>
-        <CardContent className="p-0">
+      <article
+        key={product.id}
+        className="overflow-hidden rounded-xl border border-border bg-card shadow-sm cursor-pointer transition-shadow duration-300 hover:shadow-md"
+        onClick={() => setExpandedId((prev) => prev === product.id ? null : product.id)}
+      >
+        <div className="p-0">
           <div className="relative aspect-square bg-muted">
             {img && (
               <img
@@ -127,7 +144,13 @@ const Index = () => {
             )}
             <label className="absolute top-2 right-2 flex items-center gap-1.5 z-10 cursor-pointer" onClick={(e) => e.stopPropagation()}>
               <span className="text-[10px] font-medium text-foreground bg-background/80 backdrop-blur-sm rounded px-1 py-0.5">Выбрать</span>
-              <Checkbox checked={selectedProducts.has(product.id)} onCheckedChange={(checked) => handleCheckboxChange(product.id, !!checked)} className="h-5 w-5 rounded-full border-2 border-primary bg-background/80 backdrop-blur-sm data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
+              <input
+                type="checkbox"
+                checked={selectedProducts.has(product.id)}
+                onChange={(event) => handleCheckboxChange(product.id, event.target.checked)}
+                className="h-5 w-5 accent-primary"
+                aria-label={`Выбрать ${productTitle}`}
+              />
             </label>
           </div>
           <div className="p-3">
@@ -145,17 +168,22 @@ const Index = () => {
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </article>
     );
   };
 
   const renderOfferCard = (offer: SpecialOffer) => {
     const isExpanded = expandedOfferId === offer.id;
     const img = offer.image_url || OFFER_IMAGE_MAP[offer.title] || "";
+
     return (
-      <Card key={offer.id} className="flex-1 min-w-0 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-md" onClick={() => setExpandedOfferId((prev) => prev === offer.id ? null : offer.id)}>
-        <CardContent className="p-0">
+      <article
+        key={offer.id}
+        className="flex-1 min-w-0 overflow-hidden rounded-xl border border-border bg-card shadow-sm cursor-pointer transition-shadow duration-300 hover:shadow-md"
+        onClick={() => setExpandedOfferId((prev) => prev === offer.id ? null : offer.id)}
+      >
+        <div className="p-0">
           <div className="relative aspect-square bg-muted">
             {img && (
               <img
@@ -183,8 +211,8 @@ const Index = () => {
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </article>
     );
   };
 
@@ -194,13 +222,22 @@ const Index = () => {
 
   const ActionButtons = () => (
     <div className="flex items-stretch gap-3 mb-6">
-      <Button asChild className="flex-1 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground">
-        <a href={`tel:${phoneNumber_}`}><Phone className="h-4 w-4" />​ПОЗВОНИТЬ</a>
-      </Button>
-      <Button variant="secondary" className="flex-1 rounded-xl text-primary" onClick={handleOrderClick} disabled={isSending}>
+      <a
+        href={`tel:${phoneNumber_}`}
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+      >
+        <Phone className="h-4 w-4" />
+        ПОЗВОНИТЬ
+      </a>
+      <button
+        type="button"
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-3 text-sm font-medium text-primary transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={handleOrderClick}
+        disabled={isSending}
+      >
         <TelegramIcon />
         {isSending ? "ОТПРАВКА..." : "ЗАКАЗАТЬ"}
-      </Button>
+      </button>
     </div>
   );
 
@@ -230,6 +267,18 @@ const Index = () => {
 
         <ActionButtons />
 
+        {submitState && (
+          <p
+            className={`mb-4 rounded-xl px-4 py-3 text-sm ${
+              submitState.type === "success"
+                ? "bg-primary/10 text-primary"
+                : "bg-destructive/10 text-destructive"
+            }`}
+          >
+            {submitState.message}
+          </p>
+        )}
+
         <div className="flex gap-3 mb-8">
           <div className="flex-1 flex flex-col gap-3">{leftProducts.map(renderProductCard)}</div>
           <div className="flex-1 flex flex-col gap-3">{rightProducts.map(renderProductCard)}</div>
@@ -252,15 +301,15 @@ const Index = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            <Card className="overflow-hidden">
-              <CardContent className="p-0 h-full">
+            <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+              <div className="p-0 h-full">
                 <div className="p-3 flex flex-col justify-center">
                   <p className="text-sm font-semibold text-card-foreground mb-2">{c("chef_name", "Руслан Валиев")}</p>
                   <p className="text-xs text-muted-foreground font-semibold mb-4">{c("chef_title", "шеф-повар")}</p>
                   <p className="text-xs text-muted-foreground">{c("chef_description", "")}</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -277,18 +326,44 @@ const Index = () => {
 
         <ActionButtons />
 
-        <Dialog open={showPhoneDialog} onOpenChange={setShowPhoneDialog}>
-          <DialogContent className="max-w-sm">
-            <DialogHeader>
-              <DialogTitle>Введите номер телефона</DialogTitle>
-              <DialogDescription>Укажите ваш номер телефона для связи по заказу</DialogDescription>
-            </DialogHeader>
-            <Input type="tel" placeholder="+7 (900) 000-00-00" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="text-lg" />
-            <Button onClick={handleSubmit} disabled={!phoneNumber.trim() || isSending} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-              {isSending ? "Отправка..." : "Отправить заказ"}
-            </Button>
-          </DialogContent>
-        </Dialog>
+        {showPhoneDialog && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
+            onClick={() => setShowPhoneDialog(false)}
+          >
+            <div
+              className="w-full max-w-sm rounded-2xl border border-border bg-background p-6 shadow-xl"
+              onClick={(event) => event.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="phone-dialog-title"
+            >
+              <div className="mb-4">
+                <h2 id="phone-dialog-title" className="text-lg font-semibold text-foreground">
+                  Введите номер телефона
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Укажите ваш номер телефона для связи по заказу
+                </p>
+              </div>
+              <input
+                type="tel"
+                placeholder="+7 (900) 000-00-00"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="mb-4 h-11 w-full rounded-md border border-input bg-background px-3 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!phoneNumber.trim() || isSending}
+                className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSending ? "Отправка..." : "Отправить заказ"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       <Footer content={content} />
     </div>

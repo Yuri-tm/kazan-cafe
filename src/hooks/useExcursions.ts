@@ -20,7 +20,7 @@ export function useExcursions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("excursions")
-        .select("*")
+        .select("id, sort_order, name, display_name, price, image_url, description, details, category, is_active")
         .eq("is_active", true)
         .order("sort_order");
       if (error) throw error;
@@ -35,7 +35,7 @@ export function useAllExcursions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("excursions")
-        .select("*")
+        .select("id, sort_order, name, display_name, price, image_url, description, details, category, is_active")
         .order("sort_order");
       if (error) throw error;
       return data as Excursion[];

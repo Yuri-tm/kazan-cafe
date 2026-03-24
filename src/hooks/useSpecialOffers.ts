@@ -18,7 +18,7 @@ export function useSpecialOffers() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("special_offers")
-        .select("*")
+        .select("id, sort_order, title, price, image_url, description, details, is_active")
         .eq("is_active", true)
         .order("sort_order");
       if (error) throw error;
@@ -33,7 +33,7 @@ export function useAllSpecialOffers() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("special_offers")
-        .select("*")
+        .select("id, sort_order, title, price, image_url, description, details, is_active")
         .order("sort_order");
       if (error) throw error;
       return data as SpecialOffer[];

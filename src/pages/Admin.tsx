@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
+import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { useSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { useAllExcursions, useUpsertExcursion, useDeleteExcursion, type Excursion } from "@/hooks/useExcursions";
@@ -20,26 +21,29 @@ const Admin = () => {
   if (!user) return <Navigate to="/admin/login" replace />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border px-4 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-foreground">Панель управления</h1>
-        <Button variant="ghost" size="sm" onClick={signOut}>
-          <LogOut className="h-4 w-4 mr-1" /> Выйти
-        </Button>
-      </header>
-      <div className="max-w-3xl mx-auto px-4 py-6">
-        <Tabs defaultValue="content">
-          <TabsList className="mb-4 w-full">
-            <TabsTrigger value="content" className="flex-1">Тексты</TabsTrigger>
-            <TabsTrigger value="excursions" className="flex-1">Экскурсии</TabsTrigger>
-            <TabsTrigger value="offers" className="flex-1">Акции</TabsTrigger>
-          </TabsList>
-          <TabsContent value="content"><SiteContentEditor /></TabsContent>
-          <TabsContent value="excursions"><ExcursionsEditor /></TabsContent>
-          <TabsContent value="offers"><OffersEditor /></TabsContent>
-        </Tabs>
+    <>
+      <Toaster />
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border px-4 py-3 flex items-center justify-between">
+          <h1 className="text-lg font-bold text-foreground">Панель управления</h1>
+          <Button variant="ghost" size="sm" onClick={signOut}>
+            <LogOut className="h-4 w-4 mr-1" /> Выйти
+          </Button>
+        </header>
+        <div className="max-w-3xl mx-auto px-4 py-6">
+          <Tabs defaultValue="content">
+            <TabsList className="mb-4 w-full">
+              <TabsTrigger value="content" className="flex-1">Тексты</TabsTrigger>
+              <TabsTrigger value="excursions" className="flex-1">Экскурсии</TabsTrigger>
+              <TabsTrigger value="offers" className="flex-1">Акции</TabsTrigger>
+            </TabsList>
+            <TabsContent value="content"><SiteContentEditor /></TabsContent>
+            <TabsContent value="excursions"><ExcursionsEditor /></TabsContent>
+            <TabsContent value="offers"><OffersEditor /></TabsContent>
+          </Tabs>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

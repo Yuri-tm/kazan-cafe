@@ -29,6 +29,18 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("@supabase") || id.includes("@tanstack")) {
             return "data-vendor";
           }
+
+          if (
+            id.includes("@radix-ui") ||
+            id.includes("sonner") ||
+            id.includes("next-themes")
+          ) {
+            return "ui-vendor";
+          }
+
+          if (id.includes("react-router-dom")) {
+            return "router-vendor";
+          }
         },
       },
     },
