@@ -12,6 +12,7 @@ import { useSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { useAllExcursions, useUpsertExcursion, useDeleteExcursion, type Excursion } from "@/hooks/useExcursions";
 import { useAllSpecialOffers, useUpsertSpecialOffer, useDeleteSpecialOffer, type SpecialOffer } from "@/hooks/useSpecialOffers";
 import { LogOut, Save, Plus, Trash2 } from "lucide-react";
+import ImageUpload from "@/components/ImageUpload";
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
