@@ -21,6 +21,17 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     sourcemap: false,
     minify: "terser",
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+
+          if (id.includes("@supabase") || id.includes("@tanstack")) {
+            return "data-vendor";
+          }
+        },
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

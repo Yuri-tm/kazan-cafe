@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import logo2 from "@/svg/logo2.svg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import kulSharifImg from "@/assets/Kremlin_noBG_small.png";
@@ -15,17 +14,15 @@ import slobodaNoBGImg from "@/assets/Sloboda_noBG_small.png";
 import raifaImg from "@/assets/Raifa_noBG_small.png";
 import agriculturePalaceImg from "@/assets/AP_noBG_small.png";
 import nightGownImg from "@/assets/NightGown_noBG_small.png";
-import specialFeature from "@/assets/Compliment_crop.png";
 import soyombikehImg from "@/assets/Soyembikeh_small.png";
 import pyramidImg from "@/assets/Pyramid_noBG_small.png";
 import gastroTourImg from "@/assets/GastroTour_noBG_small.png";
-import R2Img from "@/assets/R2.jpg";
 import R22Img from "@/assets/R22.jpg";
-import chuckChuckImg from "@/assets/ChuckChuck_small.png";
 import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.png";
 import logoImg from "@/assets/Logo.svg";
 import zilantImg from "@/assets/Zilant_noBG_small.png";
-import robotImg from "@/assets/robot_noBG.png";
+import robotImg from "@/assets/Robot_noBG.png";
+import egyptImg from "@/assets/egypt_noBG_small.jpg"
 import Footer from "@/components/Footer";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useExcursions, type Excursion } from "@/hooks/useExcursions";
@@ -47,7 +44,10 @@ const IMAGE_MAP: Record<string, string> = {
   "Перезагрузка будущего 2к1": robotImg,
 };
 
-const OFFER_IMAGE_FALLBACK = templeOfAllReligionsImg;
+const OFFER_IMAGE_MAP: Record<string, string> = {
+  "Күчтәнәч (гостинец)": templeOfAllReligionsImg,
+  "Бүләк (подарок)": egyptImg,
+};
 
 const Index = () => {
   const { data: content } = useSiteContent();
@@ -115,7 +115,16 @@ const Index = () => {
       <Card key={product.id} className="overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-md" onClick={() => setExpandedId((prev) => prev === product.id ? null : product.id)}>
         <CardContent className="p-0">
           <div className="relative aspect-square bg-muted">
-            {img && <img src={img} alt={product.name} className="w-full h-full object-contain" />}
+            {img && (
+              <img
+                src={img}
+                alt={product.name}
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 768px) 50vw, 240px"
+                className="w-full h-full object-contain"
+              />
+            )}
             <label className="absolute top-2 right-2 flex items-center gap-1.5 z-10 cursor-pointer" onClick={(e) => e.stopPropagation()}>
               <span className="text-[10px] font-medium text-foreground bg-background/80 backdrop-blur-sm rounded px-1 py-0.5">Выбрать</span>
               <Checkbox checked={selectedProducts.has(product.id)} onCheckedChange={(checked) => handleCheckboxChange(product.id, !!checked)} className="h-5 w-5 rounded-full border-2 border-primary bg-background/80 backdrop-blur-sm data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
@@ -143,12 +152,21 @@ const Index = () => {
 
   const renderOfferCard = (offer: SpecialOffer) => {
     const isExpanded = expandedOfferId === offer.id;
-    const img = offer.image_url || OFFER_IMAGE_FALLBACK;
+    const img = offer.image_url || OFFER_IMAGE_MAP[offer.title] || "";
     return (
       <Card key={offer.id} className="flex-1 min-w-0 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-md" onClick={() => setExpandedOfferId((prev) => prev === offer.id ? null : offer.id)}>
         <CardContent className="p-0">
           <div className="relative aspect-square bg-muted">
-            {img && <img src={img} alt={offer.title} className="w-full h-full object-contain" />}
+            {img && (
+              <img
+                src={img}
+                alt={offer.title}
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 768px) 50vw, 240px"
+                className="w-full h-full object-contain"
+              />
+            )}
           </div>
           <div className="p-3">
             <p className="text-sm font-medium text-card-foreground whitespace-pre-line">{offer.title}</p>
@@ -191,7 +209,13 @@ const Index = () => {
       <div className="mx-auto max-w-md px-[12px] py-[24px]">
         <header className="flex items-center justify-between mb-4">
           <div className="w-1/4 flex items-center justify-center">
-            <img src={logoImg} alt="logo" className="w-full h-full object-contain" />
+            <img
+              src={logoImg}
+              alt="logo"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-contain"
+            />
           </div>
           <h1 className="font-bold text-foreground text-center py-[10px] px-[10px] text-2xl">
             {c("site_title", "Тур-кафе СӘЯХӘТ (путешествие)")}
@@ -218,7 +242,16 @@ const Index = () => {
         <section className="mb-8">
           <h2 className="text-lg font-bold text-foreground mb-4">{c("chef_section_title", "Наш повар и его команда")}</h2>
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-muted rounded-lg" style={{ backgroundImage: `url(${R22Img})`, backgroundSize: "cover", backgroundPosition: "center" }}></div>
+            <div className="bg-muted rounded-lg overflow-hidden">
+              <img
+                src={R22Img}
+                alt={c("chef_name", "Руслан Валиев")}
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 768px) 50vw, 320px"
+                className="h-full w-full object-cover"
+              />
+            </div>
             <Card className="overflow-hidden">
               <CardContent className="p-0 h-full">
                 <div className="p-3 flex flex-col justify-center">
