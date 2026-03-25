@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { useAllExcursions, useUpsertExcursion, useDeleteExcursion, type Excursion } from "@/hooks/useExcursions";
 import { useAllSpecialOffers, useUpsertSpecialOffer, useDeleteSpecialOffer, type SpecialOffer } from "@/hooks/useSpecialOffers";
+import { useAllReviews, useUpsertReview, useDeleteReview, type Review } from "@/hooks/useReviews";
 import { LogOut, Save, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "@/components/ImageUpload";
 
