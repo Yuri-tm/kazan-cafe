@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { useAllExcursions, useUpsertExcursion, useDeleteExcursion, type Excursion } from "@/hooks/useExcursions";
 import { useAllSpecialOffers, useUpsertSpecialOffer, useDeleteSpecialOffer, type SpecialOffer } from "@/hooks/useSpecialOffers";
+import { useAllReviews, useUpsertReview, useDeleteReview, type Review } from "@/hooks/useReviews";
 import { LogOut, Save, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "@/components/ImageUpload";
 
@@ -37,10 +38,12 @@ const Admin = () => {
               <TabsTrigger value="content" className="flex-1">Тексты</TabsTrigger>
               <TabsTrigger value="excursions" className="flex-1">Экскурсии</TabsTrigger>
               <TabsTrigger value="offers" className="flex-1">Акции</TabsTrigger>
+              <TabsTrigger value="reviews" className="flex-1">Отзывы</TabsTrigger>
             </TabsList>
             <TabsContent value="content"><SiteContentEditor /></TabsContent>
             <TabsContent value="excursions"><ExcursionsEditor /></TabsContent>
             <TabsContent value="offers"><OffersEditor /></TabsContent>
+            <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
           </Tabs>
         </div>
       </div>
@@ -282,6 +285,89 @@ function OffersEditor() {
             <div className="flex gap-1">
               <Button size="sm" variant="ghost" onClick={() => startEdit(offer)}>✏️</Button>
               <Button size="sm" variant="ghost" onClick={() => handleDelete(offer.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// --- Reviews Editor ---
+function ReviewsEditor() {
+  const { data: reviews, isLoading } = useAllReviews();
+  const upsertMutation = useUpsertReview();
+  const deleteMutation = useDeleteReview();
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<Partial<Review>>({});
+
+  if (isLoading) return <p>Загрузка...</p>;
+
+  const startEdit = (review: Review) => {
+    setEditingId(review.id);
+    setForm({ ...review });
+  };
+
+  const startNew = () => {
+    setEditingId("new");
+    setForm({ author: "", text: "", sort_order: (reviews?.length ?? 0) + 1, is_active: true });
+  };
+
+  const handleSave = async () => {
+    if (!form.author || !form.text) { toast.error("Заполните автора и текст"); return; }
+    try {
+      const payload = editingId === "new" ? { ...form } : { id: editingId, ...form };
+      await upsertMutation.mutateAsync(payload as any);
+      toast.success("Сохранено!");
+      setEditingId(null);
+      setForm({});
+    } catch {
+      toast.error("Ошибка сохранения");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Удалить отзыв?")) return;
+    try {
+      await deleteMutation.mutateAsync(id);
+      toast.success("Удалено");
+    } catch {
+      toast.error("Ошибка удаления");
+    }
+  };
+
+  if (editingId) {
+    return (
+      <div className="space-y-3">
+        <h3 className="font-semibold">{editingId === "new" ? "Новый отзыв" : "Редактирование"}</h3>
+        <Input placeholder="Автор" value={form.author ?? ""} onChange={(e) => setForm({ ...form, author: e.target.value })} />
+        <Textarea placeholder="Текст отзыва" rows={4} value={form.text ?? ""} onChange={(e) => setForm({ ...form, text: e.target.value })} />
+        <Input type="number" placeholder="Порядок сортировки" value={form.sort_order ?? 0} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
+        <div className="flex items-center gap-2">
+          <Switch checked={form.is_active ?? true} onCheckedChange={(v) => setForm({ ...form, is_active: v })} />
+          <span className="text-sm">Активен</span>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={handleSave} disabled={upsertMutation.isPending}><Save className="h-4 w-4 mr-1" />Сохранить</Button>
+          <Button variant="outline" onClick={() => { setEditingId(null); setForm({}); }}>Отмена</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <Button onClick={startNew} variant="outline" size="sm"><Plus className="h-4 w-4 mr-1" />Добавить</Button>
+      {reviews?.map((review) => (
+        <Card key={review.id} className={!review.is_active ? "opacity-50" : ""}>
+          <CardContent className="p-3 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{review.author}</p>
+              <p className="text-xs text-muted-foreground line-clamp-1">{review.text}</p>
+            </div>
+            <div className="flex gap-1">
+              <Button size="sm" variant="ghost" onClick={() => startEdit(review)}>✏️</Button>
+              <Button size="sm" variant="ghost" onClick={() => handleDelete(review.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
             </div>
           </CardContent>
         </Card>
