@@ -1,13 +1,11 @@
 import { useState } from "react";
-
-const reviews = [
-  { author: "Анна М.", text: "Прекрасная экскурсия! Узнали много нового о Казани. Рекомендуем!" },
-  { author: "Дмитрий К.", text: "Отличный гид, интересный маршрут. Дети были в восторге." },
-  { author: "Елена С.", text: "Очень вкусная татарская кухня и замечательная атмосфера. Спасибо!" },
-];
+import { useReviews } from "@/hooks/useReviews";
 
 const ReviewsSection = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: reviews } = useReviews();
+
+  if (!reviews?.length) return null;
 
   return (
     <section className="mb-8">
@@ -28,14 +26,14 @@ const ReviewsSection = () => {
       <div
         className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
         style={{
-          maxHeight: isOpen ? "600px" : "0px",
+          maxHeight: isOpen ? `${reviews.length * 120 + 100}px` : "0px",
           opacity: isOpen ? 1 : 0,
         }}
       >
         <div className="mt-3 flex flex-col gap-3">
-          {reviews.map((review, i) => (
+          {reviews.map((review) => (
             <div
-              key={i}
+              key={review.id}
               className="rounded-xl border border-border bg-card p-4 shadow-sm"
             >
               <p className="text-sm font-semibold text-card-foreground mb-1">
