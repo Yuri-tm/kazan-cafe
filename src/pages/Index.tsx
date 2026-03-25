@@ -18,6 +18,7 @@ import zilantImg from "@/assets/Zilant_noBG_small.png";
 import robotImg from "@/assets/robot_noBG_small.png";
 import egyptImg from "@/assets/Egypt_noBG_small.png"
 import Footer from "@/components/Footer";
+import ReviewsSection from "@/components/ReviewsSection";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useExcursions, type Excursion } from "@/hooks/useExcursions";
 import { useSpecialOffers, type SpecialOffer } from "@/hooks/useSpecialOffers";
@@ -325,6 +326,8 @@ const Index = () => {
         <p className="text-center text-muted-foreground mb-4 font-semibold">{c("motivational_bottom", "")}</p>
 
         <ActionButtons />
+
+        <ReviewsSection />
 
         {showPhoneDialog && (
           <div
