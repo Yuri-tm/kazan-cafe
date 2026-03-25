@@ -38,10 +38,12 @@ const Admin = () => {
               <TabsTrigger value="content" className="flex-1">Тексты</TabsTrigger>
               <TabsTrigger value="excursions" className="flex-1">Экскурсии</TabsTrigger>
               <TabsTrigger value="offers" className="flex-1">Акции</TabsTrigger>
+              <TabsTrigger value="reviews" className="flex-1">Отзывы</TabsTrigger>
             </TabsList>
             <TabsContent value="content"><SiteContentEditor /></TabsContent>
             <TabsContent value="excursions"><ExcursionsEditor /></TabsContent>
             <TabsContent value="offers"><OffersEditor /></TabsContent>
+            <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
           </Tabs>
         </div>
       </div>
