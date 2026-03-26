@@ -22,6 +22,15 @@ type LegalDoc = {
 
 const docs: LegalDoc[] = [
   {
+    id: "badge",
+    title: "Бейдж экскурсовода",
+    subtitle: "Аккредитация в комитете по туризму до 2029г.",
+    description: "",
+    details: "Скан документа доступен в полном размере по нажатию на превью.",
+    previewSrc: badgePrevImg,
+    fullSrc: badgeFullImg,
+  },
+  {
     id: "diploma1",
     title: "Удостоверение о повышении квалификации",
     subtitle: "РГУТИС, 2024",
@@ -56,15 +65,6 @@ const docs: LegalDoc[] = [
     details: "Скан документа доступен в полном размере по нажатию на превью.",
     previewSrc: thanxPrevImg,
     fullSrc: thanxFullImg,
-  },
-  {
-    id: "badge",
-    title: "Бейдж экскурсовода",
-    subtitle: "Аккредитация в комитете по туризму до 2029г.",
-    description: "",
-    details: "Скан документа доступен в полном размере по нажатию на превью.",
-    previewSrc: badgePrevImg,
-    fullSrc: badgeFullImg,
   },
 ];
 
