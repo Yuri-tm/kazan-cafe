@@ -7,6 +7,8 @@ import cert1PrevImg from "@/assets/Cert1_prev.jpg";
 import cert1FullImg from "@/assets/Cert1_full.jpg";
 import thanxPrevImg from "@/assets/Thanx_prev.jpg";
 import thanxFullImg from "@/assets/Thanx_full.jpg";
+import badgePrevImg from "@/assets/Badge_prev.jpg";
+import badgeFullImg from "@/assets/Badge_full.jpg";
 
 type LegalDoc = {
   id: string;
@@ -33,7 +35,7 @@ const docs: LegalDoc[] = [
     title: "Удостоверение о повышении квалификации",
     subtitle: "КФУ, 2023",
     description: "Методика подготовки и проведения автобусной экскурсии. Обзорная экскурсия по Казани.",
-    details: "Используйте полноразмерное изображение для удобного чтения номера и даты.",
+    details: "Скан документа доступен в полном размере по нажатию на превью.",
     previewSrc: diploma2PrevImg,
     fullSrc: diploma2FullImg,
   },
@@ -42,7 +44,7 @@ const docs: LegalDoc[] = [
     title: "Удостоверение о повышении квалификации",
     subtitle: "Казанский государственный университет культуры, 2025",
     description: "Мультимедийные технологии в экскурсионной деятельности.",
-    details: "Откройте изображение в модальном окне, чтобы рассмотреть документ целиком.",
+    details: "Скан документа доступен в полном размере по нажатию на превью.",
     previewSrc: cert1PrevImg,
     fullSrc: cert1FullImg,
   },
@@ -51,9 +53,18 @@ const docs: LegalDoc[] = [
     title: "Благодарственное письмо",
     subtitle: "От ООО ТревелМед, г.Сочи, 2025",
     description: "Выражение благодарности за профессиональное отношение и качественное обслуживание.",
-    details: "Откройте изображение в модальном окне, чтобы рассмотреть документ целиком.",
+    details: "Скан документа доступен в полном размере по нажатию на превью.",
     previewSrc: thanxPrevImg,
     fullSrc: thanxFullImg,
+  },
+  {
+    id: "badge",
+    title: "Бейдж экскурсовода",
+    subtitle: "Аккредитация в комитете по туризму до 2029г.",
+    description: "",
+    details: "Скан документа доступен в полном размере по нажатию на превью.",
+    previewSrc: badgePrevImg,
+    fullSrc: badgeFullImg,
   },
 ];
 
