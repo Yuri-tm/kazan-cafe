@@ -18,6 +18,7 @@ import zilantImg from "@/assets/Zilant_noBG_small.png";
 import robotImg from "@/assets/robot_noBG_small.png";
 import egyptImg from "@/assets/Egypt_noBG_small.png"
 import Footer from "@/components/Footer";
+import CredentialsSection from "@/components/CredentialsSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useExcursions, type Excursion } from "@/hooks/useExcursions";
@@ -313,6 +314,8 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        <CredentialsSection />
 
         <section className="mb-8">
           <h2 className="text-lg font-bold text-foreground mb-4">{c("offers_section_title", "Комплимент от шеф-повара")}</h2>
