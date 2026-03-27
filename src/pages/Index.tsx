@@ -47,8 +47,8 @@ const OFFER_IMAGE_MAP: Record<string, string> = {
 
 const Index = () => {
   const { data: content } = useSiteContent();
-  const { data: dbExcursions } = useExcursions();
-  const { data: dbOffers } = useSpecialOffers();
+  const { data: dbExcursions, isLoading: excursionsLoading } = useExcursions();
+  const { data: dbOffers, isLoading: offersLoading } = useSpecialOffers();
 
   const c = (key: string, fallback: string) => content?.[key] ?? fallback;
   const phoneNumber_ = c("phone_number", "+79600897952");
@@ -121,7 +121,7 @@ const Index = () => {
 
   const getImage = (exc: Excursion) => exc.image_url || IMAGE_MAP[exc.name] || "";
 
-  const renderProductCard = (product: Excursion) => {
+  const renderProductCard = (product: Excursion, index: number) => {
     const isExpanded = expandedId === product.id;
     const productTitle = product.display_name || product.name;
     const img = getImage(product);
@@ -138,8 +138,9 @@ const Index = () => {
               <img
                 src={img}
                 alt={product.name}
-                loading="lazy"
-                decoding="async"
+                loading={index < 4 ? "eager" : "lazy"}
+                decoding={index < 4 ? "sync" : "async"}
+                fetchPriority={index < 2 ? "high" : undefined}
                 sizes="(max-width: 768px) 50vw, 240px"
                 className="w-full h-full object-contain"
               />
@@ -281,9 +282,22 @@ const Index = () => {
           </p>
         )}
 
-        <div className="flex gap-3 mb-8">
-          <div className="flex-1 flex flex-col gap-3">{leftProducts.map(renderProductCard)}</div>
-          <div className="flex-1 flex flex-col gap-3">{rightProducts.map(renderProductCard)}</div>
+        <div className="flex gap-3 mb-8" style={{ minHeight: excursionsLoading ? "1600px" : undefined }}>
+          {excursionsLoading ? (
+            <>
+              <div className="flex-1 flex flex-col gap-3">
+                {[0,1,2,3,4,5].map(i => <div key={i} className="rounded-xl bg-muted animate-pulse aspect-square" />)}
+              </div>
+              <div className="flex-1 flex flex-col gap-3">
+                {[0,1,2,3,4,5].map(i => <div key={i} className="rounded-xl bg-muted animate-pulse aspect-square" />)}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex-1 flex flex-col gap-3">{leftProducts.map(renderProductCard)}</div>
+              <div className="flex-1 flex flex-col gap-3">{rightProducts.map(renderProductCard)}</div>
+            </>
+          )}
         </div>
 
         <p className="text-center text-muted-foreground mb-4 font-semibold">{c("motivational_middle", "")}</p>
