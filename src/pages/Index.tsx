@@ -281,9 +281,22 @@ const Index = () => {
           </p>
         )}
 
-        <div className="flex gap-3 mb-8">
-          <div className="flex-1 flex flex-col gap-3">{leftProducts.map(renderProductCard)}</div>
-          <div className="flex-1 flex flex-col gap-3">{rightProducts.map(renderProductCard)}</div>
+        <div className="flex gap-3 mb-8" style={{ minHeight: excursionsLoading ? "1600px" : undefined }}>
+          {excursionsLoading ? (
+            <>
+              <div className="flex-1 flex flex-col gap-3">
+                {[0,1,2,3,4,5].map(i => <div key={i} className="rounded-xl bg-muted animate-pulse aspect-square" />)}
+              </div>
+              <div className="flex-1 flex flex-col gap-3">
+                {[0,1,2,3,4,5].map(i => <div key={i} className="rounded-xl bg-muted animate-pulse aspect-square" />)}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex-1 flex flex-col gap-3">{leftProducts.map(renderProductCard)}</div>
+              <div className="flex-1 flex flex-col gap-3">{rightProducts.map(renderProductCard)}</div>
+            </>
+          )}
         </div>
 
         <p className="text-center text-muted-foreground mb-4 font-semibold">{c("motivational_middle", "")}</p>
