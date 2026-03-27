@@ -121,7 +121,7 @@ const Index = () => {
 
   const getImage = (exc: Excursion) => exc.image_url || IMAGE_MAP[exc.name] || "";
 
-  const renderProductCard = (product: Excursion) => {
+  const renderProductCard = (product: Excursion, index: number) => {
     const isExpanded = expandedId === product.id;
     const productTitle = product.display_name || product.name;
     const img = getImage(product);
