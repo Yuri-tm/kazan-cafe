@@ -138,8 +138,9 @@ const Index = () => {
               <img
                 src={img}
                 alt={product.name}
-                loading="lazy"
-                decoding="async"
+                loading={index < 4 ? "eager" : "lazy"}
+                decoding={index < 4 ? "sync" : "async"}
+                fetchPriority={index < 2 ? "high" : undefined}
                 sizes="(max-width: 768px) 50vw, 240px"
                 className="w-full h-full object-contain"
               />
