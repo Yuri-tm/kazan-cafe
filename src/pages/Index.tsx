@@ -48,7 +48,7 @@ const OFFER_IMAGE_MAP: Record<string, string> = {
 const Index = () => {
   const { data: content } = useSiteContent();
   const { data: dbExcursions, isLoading: excursionsLoading } = useExcursions();
-  const { data: dbOffers, isLoading: offersLoading } = useSpecialOffers();
+  const { data: dbOffers } = useSpecialOffers();
 
   const c = (key: string, fallback: string) => content?.[key] ?? fallback;
   const phoneNumber_ = c("phone_number", "+79600897952");
