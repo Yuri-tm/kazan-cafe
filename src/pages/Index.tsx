@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import kulSharifImg from "@/assets/Kremlin_noBG_small.png";
-import bolgarNoBgImg from "@/assets/Bolgar_noBG_small.png";
-import sviyazhskImg from "@/assets/Sviyazhsk_noBG.png";
-import slobodaNoBGImg from "@/assets/Sloboda_noBG_small.png";
-import raifaImg from "@/assets/Raifa_noBG_small.png";
-import agriculturePalaceImg from "@/assets/AP_noBG_small.png";
-import nightGownImg from "@/assets/NightGown_noBG_small.png";
-import soyombikehImg from "@/assets/Soyembikeh_small.png";
-import pyramidImg from "@/assets/Pyramid_noBG_small.png";
-import gastroTourImg from "@/assets/GastroTour_noBG_small.png";
+import kulSharifImg from "@/assets/Kremlin_noBG_small.webp";
+import bolgarNoBgImg from "@/assets/Bolgar_noBG_small.webp";
+import sviyazhskImg from "@/assets/Sviyazhsk_noBG.webp";
+import slobodaNoBGImg from "@/assets/Sloboda_noBG_small.webp";
+import raifaImg from "@/assets/Raifa_noBG_small.webp";
+import agriculturePalaceImg from "@/assets/AP_noBG_small.webp";
+import nightGownImg from "@/assets/NightGown_noBG_small.webp";
+import soyombikehImg from "@/assets/Soyembikeh_small.webp";
+import pyramidImg from "@/assets/Pyramid_noBG_small.webp";
+import gastroTourImg from "@/assets/GastroTour_noBG_small.webp";
 import R22Img from "@/assets/R22.jpg";
-import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.png";
+import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.webp";
 import logoImg from "@/assets/Logo.svg";
-import zilantImg from "@/assets/Zilant_noBG_small.png";
-import robotImg from "@/assets/robot_noBG_small.png";
-import egyptImg from "@/assets/Egypt_noBG_small.png"
+import zilantImg from "@/assets/Zilant_noBG_small.webp";
+import robotImg from "@/assets/robot_noBG_small.webp";
+import egyptImg from "@/assets/Egypt_noBG_small.webp"
 import Footer from "@/components/Footer";
 import CredentialsSection from "@/components/CredentialsSection";
 import ReviewsSection from "@/components/ReviewsSection";
