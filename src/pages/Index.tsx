@@ -15,7 +15,7 @@ import R22Img from "@/assets/R22.jpg";
 import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.webp";
 import logoImg from "@/assets/Logo.svg";
 import zilantImg from "@/assets/Zilant_noBG_small.webp";
-import robotImg from "@/assets/robot_noBG_small.webp";
+import robotImg from "@/assets/Innopolis_noBG.webp";
 import egyptImg from "@/assets/Egypt_noBG_small.webp"
 import Footer from "@/components/Footer";
 import CredentialsSection from "@/components/CredentialsSection";
@@ -140,7 +140,7 @@ const Index = () => {
                 alt={product.name}
                 loading={index < 4 ? "eager" : "lazy"}
                 decoding={index < 4 ? "sync" : "async"}
-                fetchPriority={index < 2 ? "high" : undefined}
+                fetchpriority={index < 2 ? "high" : undefined}
                 sizes="(max-width: 768px) 50vw, 240px"
                 className="w-full h-full object-contain"
               />
@@ -252,7 +252,7 @@ const Index = () => {
             <img
               src={logoImg}
               alt="logo"
-              fetchPriority="high"
+              fetchpriority="high"
               decoding="async"
               className="w-full h-full object-contain"
             />
