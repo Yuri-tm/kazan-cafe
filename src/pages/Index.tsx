@@ -252,7 +252,7 @@ const Index = () => {
             <img
               src={logoImg}
               alt="logo"
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               className="w-full h-full object-contain"
             />
