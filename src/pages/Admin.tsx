@@ -364,6 +364,7 @@ function ReviewsEditor() {
             <div>
               <p className="text-sm font-medium">{review.author}</p>
               <p className="text-xs text-muted-foreground line-clamp-1">{review.text}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">👍 {review.likes}  👎 {review.dislikes}</p>
             </div>
             <div className="flex gap-1">
               <Button size="sm" variant="ghost" onClick={() => startEdit(review)}>✏️</Button>
