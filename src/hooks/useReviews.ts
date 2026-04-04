@@ -74,12 +74,28 @@ export function useSubmitReview() {
       const { error } = await supabase.from("reviews").insert({
         author: review.author,
         text: review.text,
-        is_active: true,
+        is_active: false,
         sort_order: 999,
         likes: 0,
         dislikes: 0,
       } as any);
       if (error) throw error;
+
+      // Send Telegram notification
+      try {
+        await supabase.functions.invoke("send-telegram", {
+          body: {
+            products: [],
+            phone: "",
+            reviewNotification: {
+              author: review.author,
+              text: review.text,
+            },
+          },
+        });
+      } catch (e) {
+        console.error("Telegram notification failed:", e);
+      }
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["reviews"] }),
   });

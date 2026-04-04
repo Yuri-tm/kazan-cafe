@@ -359,14 +359,25 @@ function ReviewsEditor() {
     <div className="space-y-3">
       <Button onClick={startNew} variant="outline" size="sm"><Plus className="h-4 w-4 mr-1" />Добавить</Button>
       {reviews?.map((review) => (
-        <Card key={review.id} className={!review.is_active ? "opacity-50" : ""}>
+        <Card key={review.id} className={!review.is_active ? "opacity-50 border-dashed" : ""}>
           <CardContent className="p-3 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium">{review.author}</p>
+              <p className="text-sm font-medium">
+                {review.author}
+                {!review.is_active && <span className="ml-2 text-xs text-orange-500 font-normal">⏳ На модерации</span>}
+              </p>
               <p className="text-xs text-muted-foreground line-clamp-1">{review.text}</p>
               <p className="text-xs text-muted-foreground mt-0.5">👍 {review.likes}  👎 {review.dislikes}</p>
             </div>
             <div className="flex gap-1">
+              {!review.is_active && (
+                <Button size="sm" variant="outline" className="text-green-600 border-green-600 hover:bg-green-50" onClick={async () => {
+                  try {
+                    await upsertMutation.mutateAsync({ id: review.id, is_active: true });
+                    toast.success("Отзыв опубликован!");
+                  } catch { toast.error("Ошибка"); }
+                }}>✅</Button>
+              )}
               <Button size="sm" variant="ghost" onClick={() => startEdit(review)}>✏️</Button>
               <Button size="sm" variant="ghost" onClick={() => handleDelete(review.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
             </div>
