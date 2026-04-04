@@ -47,7 +47,7 @@ const ReviewsSection = () => {
       await submitMutation.mutateAsync({ author: trimmedName, text: trimmedText });
       setName("");
       setText("");
-      toast.success("Отзыв отправлен!");
+      toast.success("Отзыв отправлен и ожидает модерации!");
     } catch {
       toast.error("Ошибка отправки");
     }
