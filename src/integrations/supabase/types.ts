@@ -63,8 +63,10 @@ export type Database = {
         Row: {
           author: string
           created_at: string
+          dislikes: number
           id: string
           is_active: boolean
+          likes: number
           sort_order: number
           text: string
           updated_at: string
@@ -72,8 +74,10 @@ export type Database = {
         Insert: {
           author?: string
           created_at?: string
+          dislikes?: number
           id?: string
           is_active?: boolean
+          likes?: number
           sort_order?: number
           text?: string
           updated_at?: string
@@ -81,8 +85,10 @@ export type Database = {
         Update: {
           author?: string
           created_at?: string
+          dislikes?: number
           id?: string
           is_active?: boolean
+          likes?: number
           sort_order?: number
           text?: string
           updated_at?: string

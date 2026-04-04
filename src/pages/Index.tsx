@@ -140,7 +140,7 @@ const Index = () => {
                 alt={product.name}
                 loading={index < 4 ? "eager" : "lazy"}
                 decoding={index < 4 ? "sync" : "async"}
-                fetchpriority={index < 2 ? "high" : undefined}
+                fetchPriority={index < 2 ? "high" : undefined}
                 sizes="(max-width: 768px) 50vw, 240px"
                 className="w-full h-full object-contain"
               />
@@ -252,7 +252,7 @@ const Index = () => {
             <img
               src={logoImg}
               alt="logo"
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               className="w-full h-full object-contain"
             />
