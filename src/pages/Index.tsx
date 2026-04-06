@@ -456,11 +456,17 @@ const Index = () => {
 
         <section className="mb-8 md:mb-14">
           <h2 className="text-lg md:text-2xl font-bold text-foreground mb-4 md:mb-6">{c("offers_section_title", "Комплимент от шеф-повара")}</h2>
-          <div className="flex items-start gap-3 md:gap-6">
-            <div className="flex w-full flex-row items-stretch gap-3 md:gap-6">
-              {offers.map(renderOfferCard)}
+          {isMobile ? (
+            <div className="flex items-start gap-3">
+              <div className="flex w-full flex-row items-stretch gap-3">
+                {offers.map(renderOfferCardMobile)}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {offers.map(renderOfferCardDesktop)}
+            </div>
+          )}
         </section>
 
         <p className="text-center text-muted-foreground mb-4 md:mb-8 font-semibold md:text-base">{c("motivational_bottom", "")}</p>
