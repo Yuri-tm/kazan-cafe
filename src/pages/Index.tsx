@@ -230,7 +230,7 @@ const Index = () => {
     );
   };
 
-  const renderOfferCard = (offer: SpecialOffer) => {
+  const renderOfferCardMobile = (offer: SpecialOffer) => {
     const isExpanded = expandedOfferId === offer.id;
     const img = offer.image_url || OFFER_IMAGE_MAP[offer.title] || "";
 
@@ -248,25 +248,71 @@ const Index = () => {
                 alt={offer.title}
                 loading="lazy"
                 decoding="async"
-                sizes="(max-width: 768px) 50vw, 240px"
+                sizes="50vw"
                 className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
               />
             )}
           </div>
-          <div className="p-3 md:p-4">
-            <p className="text-sm md:text-base font-medium text-card-foreground whitespace-pre-line">{offer.title}</p>
-            <p className="text-xs md:text-sm text-muted-foreground">{offer.price}</p>
+          <div className="p-3">
+            <p className="text-sm font-medium text-card-foreground whitespace-pre-line">{offer.title}</p>
+            <p className="text-xs text-muted-foreground">{offer.price}</p>
           </div>
           <div className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out" style={{ maxHeight: isExpanded ? "400px" : "0px", opacity: isExpanded ? 1 : 0 }}>
-            <div className="px-3 pb-3 md:px-4 md:pb-4">
-              <p className="text-xs md:text-sm leading-relaxed text-secondary-foreground">{offer.description}</p>
+            <div className="px-3 pb-3">
+              <p className="text-xs leading-relaxed text-secondary-foreground">{offer.description}</p>
               {offer.details && (
                 <>
                   <hr className="my-2 border-border" />
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{offer.details}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed whitespace-pre-line">{offer.details}</p>
                 </>
               )}
             </div>
+          </div>
+        </div>
+      </article>
+    );
+  };
+
+  const renderOfferCardDesktop = (offer: SpecialOffer) => {
+    const isExpanded = expandedOfferId === offer.id;
+    const img = offer.image_url || OFFER_IMAGE_MAP[offer.title] || "";
+
+    return (
+      <article
+        key={offer.id}
+        className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5"
+        onClick={() => setExpandedOfferId((prev) => prev === offer.id ? null : offer.id)}
+      >
+        <div className="flex items-stretch">
+          <div className="relative w-40 h-40 flex-shrink-0 bg-muted">
+            {img && (
+              <img
+                src={img}
+                alt={offer.title}
+                loading="lazy"
+                decoding="async"
+                sizes="200px"
+                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
+          </div>
+          <div className="flex-1 p-5 flex flex-col justify-center min-w-0">
+            <p className="text-base font-semibold text-card-foreground whitespace-pre-line mb-1 group-hover:text-primary transition-colors duration-300">{offer.title}</p>
+            <p className="text-sm text-muted-foreground line-clamp-2">{offer.description}</p>
+          </div>
+          <div className="flex flex-col items-end justify-center p-5 flex-shrink-0">
+            <p className="text-base font-bold text-foreground whitespace-nowrap">{offer.price}</p>
+          </div>
+        </div>
+        <div className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out" style={{ maxHeight: isExpanded ? "400px" : "0px", opacity: isExpanded ? 1 : 0 }}>
+          <div className="px-5 pb-5 border-t border-border pt-4">
+            <p className="text-sm leading-relaxed text-secondary-foreground">{offer.description}</p>
+            {offer.details && (
+              <>
+                <hr className="my-3 border-border" />
+                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{offer.details}</p>
+              </>
+            )}
           </div>
         </div>
       </article>
