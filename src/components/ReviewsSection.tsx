@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useReviews, useSubmitReview, useReactToReview } from "@/hooks/useReviews";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,7 @@ function setReacted(id: string, type: "like" | "dislike") {
 }
 
 const ReviewsSection = () => {
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const { data: reviews } = useReviews();
   const submitMutation = useSubmitReview();
@@ -30,6 +32,11 @@ const ReviewsSection = () => {
   const [name, setName] = useState("");
   const [text, setText] = useState("");
   const [reacted, setReactedState] = useState(getReacted);
+
+  // Auto-expand on desktop
+  useEffect(() => {
+    if (!isMobile) setIsOpen(true);
+  }, [isMobile]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,19 +78,21 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section className="mb-8">
+    <section className="mb-8 md:mb-14">
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl bg-card border border-border px-4 py-3 text-left transition-colors hover:bg-muted"
+        className="flex w-full items-center justify-between rounded-xl bg-card border border-border px-4 py-3 text-left transition-colors hover:bg-muted md:cursor-default"
       >
-        <h2 className="text-lg font-bold text-foreground">Наши отзывы</h2>
-        <span
-          className="text-2xl font-light text-muted-foreground transition-transform duration-300"
-          style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
-        >
-          {isOpen ? "−" : "+"}
-        </span>
+        <h2 className="text-lg md:text-2xl font-bold text-foreground">Наши отзывы</h2>
+        {isMobile && (
+          <span
+            className="text-2xl font-light text-muted-foreground transition-transform duration-300"
+            style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+          >
+            {isOpen ? "−" : "+"}
+          </span>
+        )}
       </button>
 
       <div
@@ -93,15 +102,16 @@ const ReviewsSection = () => {
           opacity: isOpen ? 1 : 0,
         }}
       >
-        <div className="mt-3 flex flex-col gap-3">
+        <div className="mt-3 md:mt-6 flex flex-col gap-3 md:gap-4">
           {/* Review submission form */}
-          <form onSubmit={handleSubmit} className="rounded-xl border border-border bg-card p-4 space-y-2">
-            <p className="text-sm font-semibold text-card-foreground">Оставить отзыв</p>
+          <form onSubmit={handleSubmit} className="rounded-xl border border-border bg-card p-4 md:p-6 space-y-2 md:space-y-3 transition-shadow duration-300 hover:shadow-md">
+            <p className="text-sm md:text-base font-semibold text-card-foreground">Оставить отзыв</p>
             <Input
               placeholder="Ваше имя"
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={50}
+              className="md:text-base"
             />
             <Textarea
               placeholder="Ваш отзыв (до 200 символов)"
@@ -109,9 +119,10 @@ const ReviewsSection = () => {
               onChange={(e) => setText(e.target.value)}
               maxLength={200}
               rows={3}
+              className="md:text-base"
             />
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">{text.length}/200</span>
+              <span className="text-xs md:text-sm text-muted-foreground">{text.length}/200</span>
               <Button type="submit" size="sm" disabled={submitMutation.isPending}>
                 Отправить
               </Button>
@@ -119,52 +130,54 @@ const ReviewsSection = () => {
           </form>
 
           {/* Reviews list */}
-          {reviews?.map((review) => (
-            <div
-              key={review.id}
-              className="rounded-xl border border-border bg-card p-4 shadow-sm"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-sm font-semibold text-card-foreground">
-                  {review.author}
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-4">
+            {reviews?.map((review) => (
+              <div
+                key={review.id}
+                className="rounded-xl border border-border bg-card p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20"
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-sm md:text-base font-semibold text-card-foreground">
+                    {review.author}
+                  </p>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">
+                    {formatDate(review.created_at)}
+                  </p>
+                </div>
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-2 md:mb-3">
+                  {review.text}
                 </p>
-                <p className="text-[10px] text-muted-foreground">
-                  {formatDate(review.created_at)}
-                </p>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleReact(review.id, "likes")}
+                    disabled={!!reacted[review.id]}
+                    className={`flex items-center gap-1 text-xs md:text-sm transition-colors ${
+                      reacted[review.id] === "like"
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
+                    } disabled:cursor-default`}
+                  >
+                    <ThumbsUp className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                    <span>{review.likes}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleReact(review.id, "dislikes")}
+                    disabled={!!reacted[review.id]}
+                    className={`flex items-center gap-1 text-xs md:text-sm transition-colors ${
+                      reacted[review.id] === "dislike"
+                        ? "text-destructive"
+                        : "text-muted-foreground hover:text-destructive"
+                    } disabled:cursor-default`}
+                  >
+                    <ThumbsDown className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                    <span>{review.dislikes}</span>
+                  </button>
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-                {review.text}
-              </p>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => handleReact(review.id, "likes")}
-                  disabled={!!reacted[review.id]}
-                  className={`flex items-center gap-1 text-xs transition-colors ${
-                    reacted[review.id] === "like"
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
-                  } disabled:cursor-default`}
-                >
-                  <ThumbsUp className="h-3.5 w-3.5" />
-                  <span>{review.likes}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleReact(review.id, "dislikes")}
-                  disabled={!!reacted[review.id]}
-                  className={`flex items-center gap-1 text-xs transition-colors ${
-                    reacted[review.id] === "dislike"
-                      ? "text-destructive"
-                      : "text-muted-foreground hover:text-destructive"
-                  } disabled:cursor-default`}
-                >
-                  <ThumbsDown className="h-3.5 w-3.5" />
-                  <span>{review.dislikes}</span>
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
