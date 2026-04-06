@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import diploma1PrevImg from "@/assets/Diploma1_prev.jpg";
 import diploma1FullImg from "@/assets/Diploma1_full.jpg";
 import diploma2PrevImg from "@/assets/Diploma2_prev.jpg";
@@ -69,61 +70,65 @@ const docs: LegalDoc[] = [
 ];
 
 const CredentialsSection = () => {
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedDoc, setSelectedDoc] = useState<LegalDoc | null>(null);
 
+  // Auto-expand on desktop
+  useEffect(() => {
+    if (!isMobile) setIsOpen(true);
+  }, [isMobile]);
+
   useEffect(() => {
     if (!selectedDoc) return;
-
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedDoc(null);
-      }
+      if (event.key === "Escape") setSelectedDoc(null);
     };
-
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [selectedDoc]);
 
   return (
     <>
-      <section className="mb-8">
+      <section className="mb-8 md:mb-14">
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex w-full items-center justify-between rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-muted"
+          className="flex w-full items-center justify-between rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-muted md:cursor-default"
         >
-          <h2 className="text-lg font-bold text-foreground">Дипломы и документы</h2>
-          <span
-            className="text-2xl font-light text-muted-foreground transition-transform duration-300"
-            style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
-          >
-            {isOpen ? "−" : "+"}
-          </span>
+          <h2 className="text-lg md:text-2xl font-bold text-foreground">Дипломы и документы</h2>
+          {isMobile && (
+            <span
+              className="text-2xl font-light text-muted-foreground transition-transform duration-300"
+              style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+            >
+              {isOpen ? "−" : "+"}
+            </span>
+          )}
         </button>
 
         <div
           className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
           style={{
-            maxHeight: isOpen ? "1400px" : "0px",
+            maxHeight: isOpen ? "2000px" : "0px",
             opacity: isOpen ? 1 : 0,
           }}
         >
-          <div className="mt-3 grid grid-cols-2 gap-3">
+          <div className="mt-3 md:mt-6 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
             {docs.map((doc) => {
               const isExpanded = expandedId === doc.id;
 
               return (
                 <article
                   key={doc.id}
-                  className="overflow-hidden rounded-xl border border-border bg-card shadow-sm cursor-pointer transition-shadow duration-300 hover:shadow-md"
+                  className="overflow-hidden rounded-xl border border-border bg-card shadow-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5"
                   onClick={() => setExpandedId((prev) => (prev === doc.id ? null : doc.id))}
                 >
                   <div className="p-0">
                     <button
                       type="button"
-                      className="relative block aspect-square w-full bg-muted"
+                      className="relative block aspect-square w-full bg-muted group"
                       onClick={(event) => {
                         event.stopPropagation();
                         setSelectedDoc(doc);
@@ -136,26 +141,29 @@ const CredentialsSection = () => {
                         loading="lazy"
                         decoding="async"
                         sizes="(max-width: 768px) 50vw, 240px"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] font-medium text-foreground backdrop-blur-sm">
+                      <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] md:text-xs font-medium text-foreground backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:block hidden">
+                        Открыть
+                      </span>
+                      <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] font-medium text-foreground backdrop-blur-sm md:hidden">
                         Открыть
                       </span>
                     </button>
 
-                    <div className="p-3">
-                      <p className="text-sm font-medium text-card-foreground whitespace-pre-line">{doc.title}</p>
-                      <p className="text-xs text-muted-foreground">{doc.subtitle}</p>
+                    <div className="p-3 md:p-4">
+                      <p className="text-sm md:text-base font-medium text-card-foreground whitespace-pre-line">{doc.title}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground">{doc.subtitle}</p>
                     </div>
 
                     <div
                       className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
                       style={{ maxHeight: isExpanded ? "240px" : "0px", opacity: isExpanded ? 1 : 0 }}
                     >
-                      <div className="px-3 pb-3">
-                        <p className="text-xs leading-relaxed text-secondary-foreground">{doc.description}</p>
+                      <div className="px-3 pb-3 md:px-4 md:pb-4">
+                        <p className="text-xs md:text-sm leading-relaxed text-secondary-foreground">{doc.description}</p>
                         <hr className="my-2 border-border" />
-                        <p className="text-xs leading-relaxed text-muted-foreground">{doc.details}</p>
+                        <p className="text-xs md:text-sm leading-relaxed text-muted-foreground">{doc.details}</p>
                       </div>
                     </div>
                   </div>
@@ -193,7 +201,6 @@ const CredentialsSection = () => {
                 Закрыть
               </button>
             </div>
-
             <div className="max-h-[80vh] overflow-auto bg-muted">
               <img
                 src={selectedDoc.fullSrc}
