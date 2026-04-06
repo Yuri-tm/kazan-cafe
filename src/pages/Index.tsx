@@ -12,7 +12,7 @@ import nightGownImg from "@/assets/NightGown_noBG_small.webp";
 import soyombikehImg from "@/assets/Soyembikeh_small.webp";
 import pyramidImg from "@/assets/Pyramid_noBG_small.webp";
 import gastroTourImg from "@/assets/GastroTour_noBG_small.webp";
-import R22Img from "@/assets/R22.jpg";
+import R22Img from "@/assets/R222.jpg";
 import templeOfAllReligionsImg from "@/assets/TAR_noBG_small.webp";
 import logoImg from "@/assets/Logo.svg";
 import zilantImg from "@/assets/Zilant_noBG_small.webp";
@@ -184,7 +184,7 @@ const Index = () => {
         onClick={() => setExpandedId((prev) => prev === product.id ? null : product.id)}
       >
         <div className="flex items-stretch">
-          <div className="relative w-40 h-40 flex-shrink-0 bg-muted">
+          <div className="relative w-56 h-56 flex-shrink-0 bg-muted">
             {img && (
               <img
                 src={img}
@@ -197,31 +197,31 @@ const Index = () => {
               />
             )}
           </div>
-          <div className="flex-1 p-5 flex flex-col justify-center min-w-0">
-            <p className="text-base font-semibold text-card-foreground whitespace-pre-line mb-1 group-hover:text-primary transition-colors duration-300">{productTitle}</p>
-            <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+          <div className="flex-1 p-8 flex flex-col justify-center min-w-0">
+            <p className="text-3xl font-semibold text-card-foreground whitespace-pre-line mb-3 group-hover:text-primary transition-colors duration-300 leading-tight">{productTitle}</p>
+            <p className="text-xl text-muted-foreground line-clamp-2 leading-relaxed">{product.description}</p>
           </div>
-          <div className="flex flex-col items-end justify-between p-5 flex-shrink-0">
-            <p className="text-base font-bold text-foreground whitespace-nowrap">{product.price}</p>
+          <div className="flex flex-col items-end justify-between p-8 flex-shrink-0">
+            <p className="text-3xl font-bold text-foreground whitespace-nowrap">{product.price}</p>
             <label className="flex items-center gap-2 cursor-pointer" onClick={(e) => e.stopPropagation()}>
-              <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">Выбрать</span>
+              <span className="text-lg font-medium text-muted-foreground group-hover:text-foreground transition-colors">Выбрать</span>
               <input
                 type="checkbox"
                 checked={selectedProducts.has(product.id)}
                 onChange={(event) => handleCheckboxChange(product.id, event.target.checked)}
-                className="h-5 w-5 accent-primary"
+                className="h-7 w-7 accent-primary"
                 aria-label={`Выбрать ${productTitle}`}
               />
             </label>
           </div>
         </div>
         <div className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out" style={{ maxHeight: isExpanded ? "400px" : "0px", opacity: isExpanded ? 1 : 0 }}>
-          <div className="px-5 pb-5 border-t border-border pt-4">
-            <p className="text-sm leading-relaxed text-secondary-foreground">{product.description}</p>
+          <div className="px-8 pb-8 border-t border-border pt-6">
+            <p className="text-xl leading-relaxed text-secondary-foreground">{product.description}</p>
             {product.details && (
               <>
-                <hr className="my-3 border-border" />
-                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{product.details}</p>
+                <hr className="my-4 border-border" />
+                <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-line">{product.details}</p>
               </>
             )}
           </div>
@@ -284,7 +284,7 @@ const Index = () => {
         onClick={() => setExpandedOfferId((prev) => prev === offer.id ? null : offer.id)}
       >
         <div className="flex items-stretch">
-          <div className="relative w-40 h-40 flex-shrink-0 bg-muted">
+          <div className="relative w-56 h-56 flex-shrink-0 bg-muted">
             {img && (
               <img
                 src={img}
@@ -296,21 +296,21 @@ const Index = () => {
               />
             )}
           </div>
-          <div className="flex-1 p-5 flex flex-col justify-center min-w-0">
-            <p className="text-base font-semibold text-card-foreground whitespace-pre-line mb-1 group-hover:text-primary transition-colors duration-300">{offer.title}</p>
-            <p className="text-sm text-muted-foreground line-clamp-2">{offer.description}</p>
+          <div className="flex-1 p-8 flex flex-col justify-center min-w-0">
+            <p className="text-3xl font-semibold text-card-foreground whitespace-pre-line mb-3 group-hover:text-primary transition-colors duration-300 leading-tight">{offer.title}</p>
+            <p className="text-xl text-muted-foreground line-clamp-2 leading-relaxed">{offer.description}</p>
           </div>
-          <div className="flex flex-col items-end justify-center p-5 flex-shrink-0">
-            <p className="text-base font-bold text-foreground whitespace-nowrap">{offer.price}</p>
+          <div className="flex flex-col items-end justify-center p-8 flex-shrink-0">
+            <p className="text-3xl font-bold text-foreground whitespace-nowrap">{offer.price}</p>
           </div>
         </div>
         <div className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out" style={{ maxHeight: isExpanded ? "400px" : "0px", opacity: isExpanded ? 1 : 0 }}>
-          <div className="px-5 pb-5 border-t border-border pt-4">
-            <p className="text-sm leading-relaxed text-secondary-foreground">{offer.description}</p>
+          <div className="px-8 pb-8 border-t border-border pt-6">
+            <p className="text-xl leading-relaxed text-secondary-foreground">{offer.description}</p>
             {offer.details && (
               <>
-                <hr className="my-3 border-border" />
-                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{offer.details}</p>
+                <hr className="my-4 border-border" />
+                <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-line">{offer.details}</p>
               </>
             )}
           </div>
@@ -327,14 +327,14 @@ const Index = () => {
     <div className={`flex items-stretch gap-3 ${sticky ? "" : "mb-6 md:mb-10"}`}>
       <a
         href={`tel:${phoneNumber_}`}
-        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm md:text-base font-medium text-primary-foreground transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98]"
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm md:px-8 md:py-5 md:text-2xl font-medium text-primary-foreground transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98]"
       >
-        <Phone className="h-4 w-4" />
+        <Phone className="h-4 w-4 md:h-7 md:w-7" />
         ПОЗВОНИТЬ
       </a>
       <button
         type="button"
-        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-3 text-sm md:text-base font-medium text-primary transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-3 text-sm md:px-8 md:py-5 md:text-2xl font-medium text-primary transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         onClick={handleOrderClick}
         disabled={isSending}
       >
@@ -349,15 +349,15 @@ const Index = () => {
       {/* Sticky action bar — desktop only */}
       {!isMobile && (
         <div className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-border shadow-sm">
-          <div className="mx-auto max-w-3xl px-8 py-3">
+          <div className="mx-auto max-w-6xl px-8 py-4">
             <ActionButtons sticky />
           </div>
         </div>
       )}
 
-      <div className="mx-auto max-w-md md:max-w-3xl px-[12px] md:px-8 py-[24px] md:py-12">
+      <div className="mx-auto max-w-md md:max-w-6xl px-[12px] md:px-10 py-[24px] md:py-16">
         <header className="flex items-center justify-between mb-4 md:mb-10">
-          <div className="w-1/4 md:w-1/6 flex items-center justify-center">
+          <div className="w-1/4 md:w-1/5 flex items-center justify-center">
             <img
               src={logoImg}
               alt="logo"
@@ -366,16 +366,16 @@ const Index = () => {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="font-bold text-foreground text-center py-[10px] px-[10px] text-2xl md:text-4xl">
+          <h1 className="font-bold text-foreground text-center py-[10px] px-[10px] text-2xl md:text-8xl md:leading-[0.95]">
             {c("site_title", "Тур-кафе СӘЯХӘТ (путешествие)")}
           </h1>
           <a href={`tel:${phoneNumber_}`} className="text-muted-foreground hover:text-primary transition-colors">
-            <Phone className="h-5 w-5 md:h-6 md:w-6" />
+            <Phone className="h-5 w-5 md:h-10 md:w-10" />
           </a>
         </header>
 
-        <p className="text-center text-foreground mb-4 md:mb-6 font-semibold md:text-lg">{c("subtitle", "")}</p>
-        <p className="text-center text-muted-foreground mb-4 md:mb-8 font-semibold md:text-base">{c("motivational_top", "")}</p>
+        <p className="text-center text-foreground mb-4 md:mb-8 font-semibold md:text-3xl md:leading-tight">{c("subtitle", "")}</p>
+        <p className="text-center text-muted-foreground mb-4 md:mb-10 font-semibold md:text-2xl md:leading-relaxed">{c("motivational_top", "")}</p>
 
         {/* Mobile-only inline action buttons */}
         {isMobile && <ActionButtons />}
@@ -412,7 +412,7 @@ const Index = () => {
             )}
           </div>
         ) : (
-          <div className="flex flex-col gap-4 mb-12">
+          <div className="flex flex-col gap-6 mb-16">
             {excursionsLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-xl bg-muted animate-pulse h-40" />
@@ -423,12 +423,12 @@ const Index = () => {
           </div>
         )}
 
-        <p className="text-center text-muted-foreground mb-4 md:mb-8 font-semibold md:text-base">{c("motivational_middle", "")}</p>
+        <p className="text-center text-muted-foreground mb-4 md:mb-10 font-semibold md:text-2xl md:leading-relaxed">{c("motivational_middle", "")}</p>
 
         {isMobile && <ActionButtons />}
 
         <section className="mb-8 md:mb-14">
-          <h2 className="text-lg md:text-2xl font-bold text-foreground mb-4 md:mb-6">{c("chef_section_title", "Наш повар и его команда")}</h2>
+          <h2 className="text-lg md:text-5xl font-bold text-foreground mb-4 md:mb-8 md:leading-tight">{c("chef_section_title", "Наш повар и его команда")}</h2>
           <div className="grid grid-cols-2 gap-3 md:gap-6">
             <div className="bg-muted rounded-lg overflow-hidden group">
               <img
@@ -442,10 +442,10 @@ const Index = () => {
             </div>
             <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="p-0 h-full">
-                <div className="p-3 md:p-6 flex flex-col justify-center">
-                  <p className="text-sm md:text-lg font-semibold text-card-foreground mb-2">{c("chef_name", "Руслан Валиев")}</p>
-                  <p className="text-xs md:text-sm text-muted-foreground font-semibold mb-4">{c("chef_title", "шеф-повар")}</p>
-                  <p className="text-xs md:text-sm text-muted-foreground">{c("chef_description", "")}</p>
+                <div className="p-3 md:p-8 flex flex-col justify-center">
+                  <p className="text-sm md:text-3xl font-semibold text-card-foreground mb-2 md:mb-3">{c("chef_name", "Руслан Валиев")}</p>
+                  <p className="text-xs md:text-xl text-muted-foreground font-semibold mb-4 md:mb-6">{c("chef_title", "шеф-повар")}</p>
+                  <p className="text-xs md:text-xl md:leading-relaxed text-secondary-foreground">{c("chef_description", "")}</p>
                 </div>
               </div>
             </div>
@@ -455,7 +455,7 @@ const Index = () => {
         <CredentialsSection />
 
         <section className="mb-8 md:mb-14">
-          <h2 className="text-lg md:text-2xl font-bold text-foreground mb-4 md:mb-6">{c("offers_section_title", "Комплимент от шеф-повара")}</h2>
+          <h2 className="text-lg md:text-5xl font-bold text-foreground mb-4 md:mb-8 md:leading-tight">{c("offers_section_title", "Комплимент от шеф-повара")}</h2>
           {isMobile ? (
             <div className="flex items-start gap-3">
               <div className="flex w-full flex-row items-stretch gap-3">
@@ -463,13 +463,13 @@ const Index = () => {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               {offers.map(renderOfferCardDesktop)}
             </div>
           )}
         </section>
 
-        <p className="text-center text-muted-foreground mb-4 md:mb-8 font-semibold md:text-base">{c("motivational_bottom", "")}</p>
+        <p className="text-center text-muted-foreground mb-4 md:mb-10 font-semibold md:text-2xl md:leading-relaxed">{c("motivational_bottom", "")}</p>
 
         {isMobile && <ActionButtons />}
 

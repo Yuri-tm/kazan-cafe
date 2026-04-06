@@ -33,9 +33,9 @@ const ReviewsSection = () => {
   const [text, setText] = useState("");
   const [reacted, setReactedState] = useState(getReacted);
 
-  // Auto-expand on desktop
+  // Keep mobile collapsed by default and auto-expand on desktop.
   useEffect(() => {
-    if (!isMobile) setIsOpen(true);
+    setIsOpen(!isMobile);
   }, [isMobile]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +84,7 @@ const ReviewsSection = () => {
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex w-full items-center justify-between rounded-xl bg-card border border-border px-4 py-3 text-left transition-colors hover:bg-muted md:cursor-default"
       >
-        <h2 className="text-lg md:text-2xl font-bold text-foreground">Наши отзывы</h2>
+        <h2 className="text-lg md:text-5xl font-bold text-foreground md:leading-tight">Наши отзывы</h2>
         {isMobile && (
           <span
             className="text-2xl font-light text-muted-foreground transition-transform duration-300"
@@ -104,14 +104,14 @@ const ReviewsSection = () => {
       >
         <div className="mt-3 md:mt-6 flex flex-col gap-3 md:gap-4">
           {/* Review submission form */}
-          <form onSubmit={handleSubmit} className="rounded-xl border border-border bg-card p-4 md:p-6 space-y-2 md:space-y-3 transition-shadow duration-300 hover:shadow-md">
-            <p className="text-sm md:text-base font-semibold text-card-foreground">Оставить отзыв</p>
+          <form onSubmit={handleSubmit} className="rounded-xl border border-border bg-card p-4 md:p-8 space-y-2 md:space-y-4 transition-shadow duration-300 hover:shadow-md">
+            <p className="text-sm md:text-2xl font-semibold text-card-foreground">Оставить отзыв</p>
             <Input
               placeholder="Ваше имя"
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={50}
-              className="md:text-base"
+              className="md:h-14 md:text-xl"
             />
             <Textarea
               placeholder="Ваш отзыв (до 200 символов)"
@@ -119,10 +119,10 @@ const ReviewsSection = () => {
               onChange={(e) => setText(e.target.value)}
               maxLength={200}
               rows={3}
-              className="md:text-base"
+              className="md:text-xl"
             />
             <div className="flex items-center justify-between">
-              <span className="text-xs md:text-sm text-muted-foreground">{text.length}/200</span>
+              <span className="text-xs md:text-lg text-muted-foreground">{text.length}/200</span>
               <Button type="submit" size="sm" disabled={submitMutation.isPending}>
                 Отправить
               </Button>
@@ -134,17 +134,17 @@ const ReviewsSection = () => {
             {reviews?.map((review) => (
               <div
                 key={review.id}
-                className="rounded-xl border border-border bg-card p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20"
+                className="rounded-xl border border-border bg-card p-4 md:p-7 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20"
               >
                 <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm md:text-base font-semibold text-card-foreground">
+                  <p className="text-sm md:text-2xl font-semibold text-card-foreground">
                     {review.author}
                   </p>
-                  <p className="text-[10px] md:text-xs text-muted-foreground">
+                  <p className="text-[10px] md:text-base text-muted-foreground">
                     {formatDate(review.created_at)}
                   </p>
                 </div>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-2 md:mb-3">
+                <p className="text-xs md:text-lg text-muted-foreground leading-relaxed mb-2 md:mb-4">
                   {review.text}
                 </p>
                 <div className="flex items-center gap-3">
@@ -152,26 +152,26 @@ const ReviewsSection = () => {
                     type="button"
                     onClick={() => handleReact(review.id, "likes")}
                     disabled={!!reacted[review.id]}
-                    className={`flex items-center gap-1 text-xs md:text-sm transition-colors ${
+                    className={`flex items-center gap-1 text-xs md:text-lg transition-colors ${
                       reacted[review.id] === "like"
                         ? "text-primary"
                         : "text-muted-foreground hover:text-primary"
                     } disabled:cursor-default`}
                   >
-                    <ThumbsUp className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                    <ThumbsUp className="h-3.5 w-3.5 md:h-5 md:w-5" />
                     <span>{review.likes}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleReact(review.id, "dislikes")}
                     disabled={!!reacted[review.id]}
-                    className={`flex items-center gap-1 text-xs md:text-sm transition-colors ${
+                    className={`flex items-center gap-1 text-xs md:text-lg transition-colors ${
                       reacted[review.id] === "dislike"
                         ? "text-destructive"
                         : "text-muted-foreground hover:text-destructive"
                     } disabled:cursor-default`}
                   >
-                    <ThumbsDown className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                    <ThumbsDown className="h-3.5 w-3.5 md:h-5 md:w-5" />
                     <span>{review.dislikes}</span>
                   </button>
                 </div>

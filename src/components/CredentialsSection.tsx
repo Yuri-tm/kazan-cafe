@@ -75,9 +75,9 @@ const CredentialsSection = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedDoc, setSelectedDoc] = useState<LegalDoc | null>(null);
 
-  // Auto-expand on desktop
+  // Keep mobile collapsed by default and auto-expand on desktop.
   useEffect(() => {
-    if (!isMobile) setIsOpen(true);
+    setIsOpen(!isMobile);
   }, [isMobile]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const CredentialsSection = () => {
           onClick={() => setIsOpen((prev) => !prev)}
           className="flex w-full items-center justify-between rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-muted md:cursor-default"
         >
-          <h2 className="text-lg md:text-2xl font-bold text-foreground">Дипломы и документы</h2>
+          <h2 className="text-lg md:text-5xl font-bold text-foreground md:leading-tight">Дипломы и документы</h2>
           {isMobile && (
             <span
               className="text-2xl font-light text-muted-foreground transition-transform duration-300"
@@ -143,7 +143,7 @@ const CredentialsSection = () => {
                         sizes="(max-width: 768px) 50vw, 240px"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] md:text-xs font-medium text-foreground backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:block hidden">
+                      <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] md:text-lg font-medium text-foreground backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:block hidden">
                         Открыть
                       </span>
                       <span className="absolute bottom-2 right-2 rounded bg-background/85 px-2 py-1 text-[10px] font-medium text-foreground backdrop-blur-sm md:hidden">
@@ -151,19 +151,19 @@ const CredentialsSection = () => {
                       </span>
                     </button>
 
-                    <div className="p-3 md:p-4">
-                      <p className="text-sm md:text-base font-medium text-card-foreground whitespace-pre-line">{doc.title}</p>
-                      <p className="text-xs md:text-sm text-muted-foreground">{doc.subtitle}</p>
+                    <div className="p-3 md:p-6">
+                      <p className="text-sm md:text-2xl font-medium text-card-foreground whitespace-pre-line leading-tight">{doc.title}</p>
+                      <p className="text-xs md:text-lg text-muted-foreground md:leading-relaxed">{doc.subtitle}</p>
                     </div>
 
                     <div
                       className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
                       style={{ maxHeight: isExpanded ? "240px" : "0px", opacity: isExpanded ? 1 : 0 }}
                     >
-                      <div className="px-3 pb-3 md:px-4 md:pb-4">
-                        <p className="text-xs md:text-sm leading-relaxed text-secondary-foreground">{doc.description}</p>
+                      <div className="px-3 pb-3 md:px-6 md:pb-6">
+                        <p className="text-xs md:text-lg leading-relaxed text-secondary-foreground">{doc.description}</p>
                         <hr className="my-2 border-border" />
-                        <p className="text-xs md:text-sm leading-relaxed text-muted-foreground">{doc.details}</p>
+                        <p className="text-xs md:text-lg leading-relaxed text-muted-foreground">{doc.details}</p>
                       </div>
                     </div>
                   </div>
@@ -188,14 +188,14 @@ const CredentialsSection = () => {
           >
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <div>
-                <h3 id="legal-doc-modal-title" className="text-base font-semibold text-foreground">
+                <h3 id="legal-doc-modal-title" className="text-base md:text-2xl font-semibold text-foreground">
                   {selectedDoc.title}
                 </h3>
-                <p className="text-xs text-muted-foreground">{selectedDoc.subtitle}</p>
+                <p className="text-xs md:text-lg text-muted-foreground">{selectedDoc.subtitle}</p>
               </div>
               <button
                 type="button"
-                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-md px-2 py-1 text-sm md:text-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 onClick={() => setSelectedDoc(null)}
               >
                 Закрыть
