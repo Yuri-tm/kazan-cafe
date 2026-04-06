@@ -26,7 +26,7 @@ const Footer = ({ content }: FooterProps) => {
             <span>VK</span>
           </a>
         </div>
-        <a href="#" target="_blank" rel="noopener noreferrer" className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center gap-1">
+        <a href="https://create-site.lovable.app" target="_blank" rel="noopener noreferrer" className="text-xs opacity-70 hover:opacity-100 transition-opacity flex items-center gap-1">
           <ExternalLink className="w-3 h-3" />
           <span>{c("footer_created_by", "Created by ...")}</span>
         </a>
