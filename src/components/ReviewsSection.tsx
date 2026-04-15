@@ -114,15 +114,14 @@ const ReviewsSection = () => {
               className="md:h-14 md:text-xl"
             />
             <Textarea
-              placeholder="Ваш отзыв (до 200 символов)"
+              placeholder="Ваш отзыв"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              maxLength={200}
               rows={3}
               className="md:text-xl"
             />
             <div className="flex items-center justify-between">
-              <span className="text-xs md:text-lg text-muted-foreground">{text.length}/200</span>
+              <span className="text-xs md:text-lg text-muted-foreground">{text.length} символов</span>
               <Button type="submit" size="sm" disabled={submitMutation.isPending}>
                 Отправить
               </Button>
