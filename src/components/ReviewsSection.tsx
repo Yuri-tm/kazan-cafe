@@ -46,8 +46,8 @@ const ReviewsSection = () => {
       toast.error("Заполните имя и сообщение");
       return;
     }
-    if (trimmedText.length > 200) {
-      toast.error("Сообщение не более 200 символов");
+    if (trimmedText.length > 2000) {
+      toast.error("Сообщение не более 2000 символов");
       return;
     }
     try {
@@ -118,6 +118,7 @@ const ReviewsSection = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={3}
+              maxLength={2000}
               className="md:text-xl"
             />
             <div className="flex items-center justify-between">
