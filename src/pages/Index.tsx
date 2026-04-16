@@ -366,7 +366,7 @@ const Index = () => {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="font-bold text-foreground text-center py-[10px] px-[10px] text-2xl md:text-8xl md:leading-[0.95]">
+          <h1 className="font-bold text-foreground text-center py-[10px] px-[10px] text-2xl md:text-7xl md:leading-[0.95]">
             {c("site_title", "Тур-кафе СӘЯХӘТ (путешествие)")}
           </h1>
           <a href={`tel:${phoneNumber_}`} className="text-muted-foreground hover:text-primary transition-colors">
