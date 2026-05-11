@@ -452,7 +452,6 @@ const Index = () => {
           </div>
         </section>
 
-        <CredentialsSection />
 
         <section className="mb-8 md:mb-14">
           <h2 className="text-lg md:text-5xl font-bold text-foreground mb-4 md:mb-8 md:leading-tight">{c("offers_section_title", "Комплимент от шеф-повара")}</h2>
@@ -469,6 +468,7 @@ const Index = () => {
           )}
         </section>
 
+          <CredentialsSection />
         <p className="text-center text-muted-foreground mb-4 md:mb-10 font-semibold md:text-2xl md:leading-relaxed">{c("motivational_bottom", "")}</p>
 
         {isMobile && <ActionButtons />}
